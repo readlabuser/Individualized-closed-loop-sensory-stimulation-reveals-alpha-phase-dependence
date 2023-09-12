@@ -1,6 +1,6 @@
 function [p, Ase, Bse] = npperm(A, B, iter, correction, circ, trial_level)
 
-% Last Updated by Tylor J Harlow 5/1/2023.  Analytic assistance from Matthew B Jane
+% Last Updated by Tylor J Harlow 9/12/2023  Analytic assistance from Matthew B Jane
 % and Scott C Bressler for benhoch function.
 %
 % This function performs non-parametric permutation testing of
