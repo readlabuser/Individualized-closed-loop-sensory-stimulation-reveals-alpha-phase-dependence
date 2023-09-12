@@ -131,7 +131,7 @@ for k = 1:length(fnames)
     c = linspace(4, 12, 140);
     f = linspace(1, 70, 140);
     [~,idx] = min(abs(params.alphaCF - f)); 
-    [waves,~] = wavecwt(data(k).eeg, data(k).fs, params.alphaCF, c(idx), 1);
+    [waves,~] = wavecwt(data(k).rawEEG, data(k).fs, params.alphaCF, c(idx), 1);
 
     % Check wavelet phases
     data(k).walphaPhaseOn = angle(waves(data(k).kOn1(1:end),:));
