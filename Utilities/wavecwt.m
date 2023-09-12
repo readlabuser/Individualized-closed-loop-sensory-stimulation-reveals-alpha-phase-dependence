@@ -1,6 +1,9 @@
 function [tf, frex] = wavecwt(signal, srate, frange, ncycles, nsteps)
 
-% adapted from code by Michael X Cohen, by tylor.harlow@uconn.edu 7/13/2022
+% This function performs a highly customizable complex morlet wavelet transform.
+% Written Tylor J Harlow 9/12/2023 - tylor.harlow@uconn.edu
+%
+% adapted from code by Michael X Cohen
 % "A better way to define and describe Morlet wavelets for time-frequency analysis,
 % NeuroImage,
 % Volume 199,
