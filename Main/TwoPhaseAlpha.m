@@ -3,8 +3,6 @@ clear;
 close all;
 clc;
 
-%% Load Data
-
 % Select subjects to exclude from group analysis
 exSub = {'Sub_151','Sub_152','126'}; %,'Sub_102','Sub_104','Sub_126','Sub_138'};
 
