@@ -13,7 +13,7 @@ exSub = {'Sub_151','Sub_152','126'}; %,'Sub_102','Sub_104','Sub_126','Sub_138'};
 params.strcmd = 'str,m,dt,eeg1,eeg2,out,iphs,ps_pulse_count,ps_pulse_id,ps_onphs,ps_offphs,ps_onontime,ps_durbyphs,ps_durbytime,ps_isi';
 
 % Define pre-processing for raw EEG data
-params = echtparams();
+params = echtparams('filterImplmentation',0);
 
 CH = {'Fpz','Fz'}; % Electrode channel labels
 
