@@ -6,9 +6,11 @@ Utilities are functions that are necessary for processing the ecHT device output
 
 Main are scripts that call upon data and the functions within Utilities in order to generate the analyses and figures from the manuscript.
 
-Additionally, all analyses assume user has the following MATLAB toolboxes:
+Additionally, all analyses assume user has the following toolboxes and packages:
 
-  1. Circular Statistics
-  2. Chronux
-  3. Signal Processing
-  4. EEGLAB
+  1. Circular Statistics (MATLAB)
+  2. Chronux (MATLAB)
+  3. Signal Processing (MATLAB)
+  4. EEGLAB (MATLAB)
+  5. fooof (python)
+  6. fooof_mat (MATLAB)
