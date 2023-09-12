@@ -3,6 +3,8 @@ function [x, y] = clusts4plot(p, thresh, y)
 % Sets up permutation p-values to plot clusters with patch
 % Inputs: p = pvalue vector
 %         ylim = two element vector of ylimits
+%
+% Written Tylor J Harlow 9/12/2023 - tylor.harlow@uconn.edu
 
 % Orient
 [r, c] = size(p);
