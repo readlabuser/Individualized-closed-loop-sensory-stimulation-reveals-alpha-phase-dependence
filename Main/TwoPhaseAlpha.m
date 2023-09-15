@@ -1,3 +1,6 @@
+% This script produces all alpha-band delimited figures and EROs
+% Written 9/15/2023 - Tylor J Harlow - tylor.harlow@uconn.edu
+
 %% Housekeeping
 clear;
 close all;
