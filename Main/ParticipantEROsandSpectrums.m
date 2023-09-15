@@ -1,3 +1,9 @@
+
+% This is where we load all of our participant files directories', as well as 
+% parameters for processing the output of the ECHT device and exclude participant's 
+% with artifacts.
+% Written 9/15/2023 - Tylor J Harlow - tylor.harlow@uconn.edu
+
 %% Housekeeping
 % Clear all figures, data, and set a timer.
 close all
@@ -11,9 +17,6 @@ h = tic;
 py = pyenv;
 
 %% Prep Work
-% This is where we load all of our participant files directories', as well as 
-% parameters for processing the output of the ECHT device and exclude participant's 
-% with artifacts.
 
 % Load current data table
 datafilename = '/Applitcations/Toolbox/MATLAB/TwoPhaseExp_table.mat';    %% Changed for Windows
