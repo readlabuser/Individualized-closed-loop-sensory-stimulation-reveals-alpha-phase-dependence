@@ -1,4 +1,4 @@
-% Created 2021-05-25 tylor.harlow@uconn.edu
+% Created 2021-05-25 Tylor J Harlow - tylor.harlow@uconn.edu
 
 %% Housekeeping
 tic;
