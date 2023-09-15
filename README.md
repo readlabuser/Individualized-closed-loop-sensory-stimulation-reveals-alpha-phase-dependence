@@ -10,3 +10,9 @@ Code for this project can be broken into two segments: Utilities & Main. Utiliti
   4. EEGLAB (MATLAB)
   5. fooof (python)
   6. fooof_mat (MATLAB)
+
+In addition, the following two MATLAB functions from MathWorks are used when analyzing (fdr_bh) and plotting (al_goodplot):
+
+  1. Credit to David Groppe for fdr_bh: https://www.mathworks.com/matlabcentral/fileexchange/27418-fdr_bh
+
+  2. Credit to Antoine Legouhy for al_goodplot: https://www.mathworks.com/matlabcentral/fileexchange/91790-al_goodplot-boxblot-violin-plot
