@@ -18,7 +18,7 @@ exSub = {'Sub_151','Sub_152','126'}; %,'Sub_102','Sub_104','Sub_126','Sub_138'};
 %% Analysis parameters
 
 % Define pre-processing for raw EEG data
-params = echtparams();
+params = echtparams('filterImplementation',1,'fslide',0,'tWin',[-0.250 0.500]);
 
 CH = {'Fpz','Fz'}; % Electrode channel labels
 
@@ -49,18 +49,19 @@ if(~isempty(exSub))
     pname2 = pname2(~contains(pname2,exSub)); % exclude subject(s) from analysis
 end
 
-
 % Whats my sample?
 n = length(pname1);
 
 % Loop through directories
 for k = 1:n
 
-
     % Get subject info
     tmp = strsplit(pname1{k},filesep);
     Sub_ID = tmp{contains(tmp,'Sub_')};
     subIdx = contains(dataTable.SubID,Sub_ID([5:end]));
+
+    % Setup alpha center frequency
+    params.alphaCF = dataTable(subIdx,:).IAF(1);
 
     % Process Random
     [ERP1(k),params1{k}] = batchERP(pname1{k},params);
@@ -306,7 +307,6 @@ colr = [co2(2,:); co2(2,:); co2(2,:); co2(2,:); co2(2,:)];
 coll = [co2(1,:); co2(1,:); co2(1,:); co2(1,:); co2(1,:)];
 colrand = [0.5 0.5 0.5];
 
-
 % Structure arrays for figures
 fpzlatenciesl = [P0t(:,1) , P1t(:,1) , N1t(:,1) , P2t(:,1) , N2t(:,1)];
 fzlatenciesl =  [P0t(:,2) , P1t(:,2) , N1t(:,2) , P2t(:,2) , N2t(:,2)];
@@ -329,13 +329,13 @@ f3 = figure;
 
 % FPZ
 subplot(1,2,1)
-[~, ~, ~, ~, ~, xl,~, ~] = al_goodplot(fpzlatenciesl,posl,0.25,coll);
+[~, ~, ~, ~, ~, ~, xl, ~] = al_goodplot(fpzlatenciesl,posl,0.25,coll,'left');
 hold on
-[~, ~, ~, ~, ~, xr, ~,~] = al_goodplot(fpzlatenciesr,posr,0.25,colr);
-[~, ~, ~, ~, ~, xrand, ~,~] = al_goodplot(fpzlatenciesrand,posrand,0.25,colrand);
+[~, ~, ~, ~, ~,~, xr, ~] = al_goodplot(fpzlatenciesr,posr,0.25,colr,'left');
+[~, ~, ~, ~, ~, ~,xrand, ~] = al_goodplot(fpzlatenciesrand,posrand,0.25,colrand,'left');
 for i = 1:5
-    plot([xl(:,i), xr(:,i)]', [fpzlatenciesl(:,i), fpzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
-    plot([xrand(:,i), xr(:,i)]', [fpzlatenciesrand(:,i), fpzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
+    plot([xl(:,i), xr(:,i)]', [fpzlatenciesl(:,i), fpzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
+    plot([xrand(:,i), xr(:,i)]', [fpzlatenciesrand(:,i), fpzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
 end
 box off
 xticks([posr])
@@ -349,13 +349,13 @@ grid off
 
 % FZ
 subplot(1,2,2)
-[~, ~, ~, ~, ~, xl,~, ~] = al_goodplot(fzlatenciesl,posl,0.25,coll);
+[~, ~, ~, ~, ~, ~, xl, ~] = al_goodplot(fzlatenciesl,posl,0.25,coll,'left');
 hold on
-[~, ~, ~, ~, ~, xr, ~,~] = al_goodplot(fzlatenciesr,posr,0.25,colr);
-[~, ~, ~, ~, ~, xrand, ~,~] = al_goodplot(fzlatenciesrand,posrand,0.25,colrand);
+[~, ~, ~, ~, ~,~, xr, ~] = al_goodplot(fzlatenciesr,posr,0.25,colr,'left');
+[~, ~, ~, ~, ~, ~,xrand, ~] = al_goodplot(fzlatenciesrand,posrand,0.25,colrand,'left');
 for i = 1:5
-    plot([xl(:,i), xr(:,i)]', [fzlatenciesl(:,i), fzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
-    plot([xrand(:,i), xr(:,i)]', [fzlatenciesrand(:,i), fzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
+    plot([xl(:,i), xr(:,i)]', [fzlatenciesl(:,i), fzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
+    plot([xrand(:,i), xr(:,i)]', [fzlatenciesrand(:,i), fzlatenciesr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
 end
 box off
 xticks([posr])
@@ -371,11 +371,13 @@ f4 = figure;
 
 % FPZ
 subplot(1,2,1)
-[~, ~, ~, ~, ~, xl,~, ~] = al_goodplot(fpzampl,posl,0.25,coll);
+[~, ~, ~, ~, ~, ~, xl, ~] = al_goodplot(fpzampl,posl,0.25,coll,'left');
 hold on
-[~, ~, ~, ~, ~, xr, ~,~] = al_goodplot(fpzampr,posr,0.25,colr);
+[~, ~, ~, ~, ~,~, xr, ~] = al_goodplot(fpzampr,posr,0.25,colr,'left');
+[~, ~, ~, ~, ~, ~,xrand, ~] = al_goodplot(fpzamprand,posrand,0.25,colrand,'left');
 for i = 1:5
-    plot([xl(:,i), xr(:,i)]', [fpzampl(:,i), fpzampr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
+    plot([xl(:,i), xr(:,i)]', [fpzampl(:,i), fpzampr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
+    plot([xrand(:,i), xr(:,i)]', [fpzamprand(:,i), fpzampr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
 end
 box off
 xticks(([1 2.1 3.2 4.3 5.4] - 0.15)*4)
@@ -389,11 +391,13 @@ pbaspect([1.68 1 1])
 
 % FZ
 subplot(1,2,2)
-[~, ~, ~, ~, ~, xl,~, ~] = al_goodplot(fzampl,posl,0.25,coll);
+[~, ~, ~, ~, ~, ~, xl, ~] = al_goodplot(fzampl,posl,0.25,coll,'left');
 hold on
-[~, ~, ~, ~, ~, xr, ~,~] = al_goodplot(fzampr,posr,0.25,colr);
+[~, ~, ~, ~, ~,~, xr, ~] = al_goodplot(fzampr,posr,0.25,colr,'left');
+[~, ~, ~, ~, ~, ~,xrand, ~] = al_goodplot(fzamprand,posrand,0.25,colrand,'left');
 for i = 1:5
-    plot([xl(:,i), xr(:,i)]', [fzampl(:,i), fzampr(:,i)]','color',[0.5 0.5 0.5 0.05],'linewidth',2)
+    plot([xl(:,i), xr(:,i)]', [fzampl(:,i), fzampr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
+    plot([xrand(:,i), xr(:,i)]', [fpzamprand(:,i), fzampr(:,i)]','color',[0.5 0.5 0.5 0.1],'linewidth',2)
 end
 box off
 xticks(([1 2.1 3.2 4.3 5.4] - 0.15)*4)
@@ -408,27 +412,20 @@ grid off
 %% ANOVA for anlyses
 
 % Aggregate
-fpzamp = abs([[P0ta(:,1); P0pa(:,1)] ; [P1ta(:,1); P1pa(:,1)] ; [N1ta(:,1); N1pa(:,1)] ; [P2ta(:,1); P2pa(:,1)] ; [N2ta(:,1); N2pa(:,1)]]);
-fzamp =  abs([[P0ta(:,2); P0pa(:,2)] ; [P1ta(:,2); P1pa(:,2)] ; [N1ta(:,2); N1pa(:,2)] ; [P2ta(:,2); P2pa(:,2)] ; [N2ta(:,2); N2pa(:,2)]]);
+fpzamp = abs([[P0ta(:,1); P0pa(:,1); P0ra(:,1)] ; [P1ta(:,1); P1pa(:,1); P1ra(:,1)] ; [N1ta(:,1); N1pa(:,1); N1ra(:,1)] ; [P2ta(:,1); P2pa(:,1); P2ra(:,1)] ; [N2ta(:,1); N2pa(:,1); N2ra(:,1)]]);
+fzamp =  abs([[P0ta(:,2); P0pa(:,2); P0ra(:,2)] ; [P1ta(:,2); P1pa(:,2); P1ra(:,2)] ; [N1ta(:,2); N1pa(:,2); N1ra(:,2)] ; [P2ta(:,2); P2pa(:,2); P2ra(:,2)] ; [N2ta(:,2); N2pa(:,2); N2ra(:,2)]]);
 amplitude = [fpzamp ; fzamp];
 
 % Setup Amplitude ANOVA
-electrode = repelem(["fpz", "fz"], [190 190])';
-condition = repmat(repelem(["Trough", "Peak"], [19 19]), [1 5])';
-condition = [condition ; condition];
-component = repelem(["P0", "P1", "N1", "P2", "N2"], [38 38 38 38 38])';
-component = [component ; component];
-
-% Amplitude ANOVA
-[~,amptbl] = anovan(amplitude, {condition, electrode, component},...
-    'varnames',{'Condition', 'Electrode','Component'},'display','off');
-
-% Setup Latency Anova
 electrode = repelem(["fpz", "fz"], [285 285])';
 condition = repmat(repelem(["Trough", "Peak", "Random"], [19 19 19]), [1 5])';
 condition = [condition ; condition];
 component = repelem(["P0", "P1", "N1", "P2", "N2"], [57 57 57 57 57])';
 component = [component ; component];
+
+% Amplitude ANOVA
+[~,amptbl] = anovan(amplitude, {condition, electrode, component},...
+    'varnames',{'Condition', 'Electrode','Component'},'display','off');
 
 % Aggregate
 fpzlatencies = [[P0t(:,1); P0p(:,1); P0r(:,1)]; [P1t(:,1);P1p(:,1); P1r(:,1)];[N1t(:,1);N1p(:,1); N1r(:,1)];[P2t(:,1); P2p(:,1); P2r(:,1)];[ N2t(:,1); N2p(:,1); N2r(:,1)]];
@@ -469,17 +466,17 @@ plattbl = table(comp, ps(:,1), ps(:,2), 'VariableNames', varnames);
 %% Save
 
 % Directory
-svpath =  '/Applications/Toolbox/MATLAB/Figures/ERP wout 126 (500ms)/';
+svpath =  '/Applications/Toolbox/MATLAB/Figures/';
 
 % Save
 print(f1,fullfile(svpath,'Peak v Trough'),'-dsvg');
 print(f1,fullfile(svpath,'Peak v Trough'),'-dpng');
 print(f2,fullfile(svpath,'Random'),'-dsvg');
 print(f2,fullfile(svpath,'Random'),'-dpng');
-print(f3,fullfile(svpath,'ERP Latency'),'-dsvg');
-print(f3,fullfile(svpath,'ERP Latency'),'-dpng');
-print(f4,fullfile(svpath,'ERP Amplitude'),'-dsvg');
-print(f4,fullfile(svpath,'ERP Amplitude'),'-dpng');
+print(f3,fullfile(svpath,'ERP Latency'),'-dsvg','-painters');
+print(f3,fullfile(svpath,'ERP Latency'),'-dpng','-painters');
+print(f4,fullfile(svpath,'ERP Amplitude'),'-dsvg','-painters');
+print(f4,fullfile(svpath,'ERP Amplitude'),'-dpng','-painters');
 writecell(lattbl,fullfile(svpath,'ANOVA Latency Comparison Table.csv'));
 writecell(amptbl,fullfile(svpath,'ANOVA Amplitude Comparison Table.csv'));
 writetable(plattbl,fullfile(svpath,'Latency t-test Table.csv'));
